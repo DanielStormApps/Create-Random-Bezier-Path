@@ -1,7 +1,7 @@
 
 import UIKit
 
-//MARK: - Constants
+// MARK: - Constants
 let height: UInt32 = 100 // View's height // ie. view.frame.height
 let width: UInt32 = 100 // View's width // ie. view.frame.width
 
