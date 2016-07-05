@@ -6,9 +6,6 @@ let height: UInt32 = 100 // View's height // ie. view.frame.height
 let width: UInt32 = 100 // View's width // ie. view.frame.width
 
 
-// MARK: - Example
-let path = createBezierPath()
-
 
 // MARK: - Create Random Bezier Path
 func createBezierPath() -> UIBezierPath {
@@ -16,16 +13,16 @@ func createBezierPath() -> UIBezierPath {
     let path = UIBezierPath()
     
     // Starting point
-    path.moveToPoint(offScreenCGPoint())
+    path.move(to: offScreenCGPoint())
     
     // Curves
     let curves = Int(arc4random_uniform(4))
     for _ in 0...curves {
-        path.addQuadCurveToPoint(randomCGPoint(), controlPoint: randomCGPoint())
+        path.addQuadCurve(to: randomCGPoint(), controlPoint: randomCGPoint())
     }
     
     // Ending point
-    path.addQuadCurveToPoint(offScreenCGPoint(), controlPoint: offScreenCGPoint())
+    path.addQuadCurve(to: offScreenCGPoint(), controlPoint: offScreenCGPoint())
     
     return path
 }
@@ -63,3 +60,6 @@ func offScreenCGPoint() -> CGPoint {
     let point = CGPoint(x: xPoint, y: yPoint)
     return point
 }
+
+// MARK: - Example
+let path = createBezierPath()
