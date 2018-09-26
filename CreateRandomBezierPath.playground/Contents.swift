@@ -2,64 +2,53 @@
 import UIKit
 
 // MARK: - Constants
-let height: UInt32 = 100 // View's height // ie. view.frame.height
-let width: UInt32 = 100 // View's width // ie. view.frame.width
+let height: CGFloat = 100.0 // View's height // ie. view.frame.height
+let width: CGFloat = 100.0 // View's width // ie. view.frame.width
 
-
-// MARK: - Create Random Bezier Path
-func createBezierPath() -> UIBezierPath {
+// MARK: - Random Bezier Path
+func randomBezierPath() -> UIBezierPath {
     // Create a path
     let path = UIBezierPath()
     
     // Starting point
-    path.move(to: offScreenCGPoint())
+    path.move(to: offScreenPoint())
     
-    // Curves
-    let curves = Int(arc4random_uniform(4))
-    for _ in 0...curves {
-        path.addQuadCurve(to: randomCGPoint(), controlPoint: randomCGPoint())
+    // Random curves
+    let numberOfCurves = Int.random(in: 0..<4)
+    for _ in 0...numberOfCurves {
+        path.addQuadCurve(to: randomPoint(), controlPoint: randomPoint())
     }
     
     // Ending point
-    path.addQuadCurve(to: offScreenCGPoint(), controlPoint: offScreenCGPoint())
+    path.addQuadCurve(to: offScreenPoint(), controlPoint: offScreenPoint())
     
     return path
 }
 
-
-// MARK: - Random Points
-func randomCGPoint() -> CGPoint {
-    let xPoint = CGFloat(arc4random_uniform(width))
-    let yPoint = CGFloat(arc4random_uniform(height))
-    
-    let point = CGPoint(x: xPoint, y: yPoint)
-    return point
+// MARK: - Random Point Helpers
+func randomPoint() -> CGPoint {
+    let xPoint = CGFloat.random(in: 0.0..<width)
+    let yPoint = CGFloat.random(in: 0.0..<height)
+    return CGPoint(x: xPoint, y: yPoint)
 }
 
-func offScreenCGPoint() -> CGPoint {
-    var xPoint = CGFloat(arc4random_uniform(width))
-    var yPoint = CGFloat(arc4random_uniform(height))
+func offScreenPoint() -> CGPoint {
+    var xPoint = CGFloat.random(in: 0.0..<width)
+    var yPoint = CGFloat.random(in: 0.0..<height)
     
-    let w = CGFloat(width / 2)
-    if xPoint >= w {
-        xPoint += w
-    }
-    else {
-        xPoint -= w
-    }
+    let midWidth: CGFloat = width / 2.0
+    xPoint = xPoint >= midWidth
+        ? xPoint + midWidth
+        : xPoint - midWidth
+
     
-    let h = CGFloat(height / 2)
-    if yPoint >= h {
-        yPoint += h
-    }
-    else {
-        yPoint -= h
-    }
+    let midHeight: CGFloat = height / 2.0
+    yPoint = yPoint >= midHeight
+        ? yPoint + midHeight
+        : yPoint - midHeight
     
-    let point = CGPoint(x: xPoint, y: yPoint)
-    return point
+    return CGPoint(x: xPoint, y: yPoint)
 }
 
-
-// MARK: - Example
-let path = createBezierPath()
+// MARK: - Run example
+let path = randomBezierPath()
